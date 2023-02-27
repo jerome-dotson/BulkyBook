@@ -8,7 +8,7 @@ namespace BulkyBook.DataAccess.Repository
 
 		private ApplicationDbContext _db;
 
-		CategoryRepository(ApplicationDbContext db) : base(db)
+		public CategoryRepository(ApplicationDbContext db) : base(db)
 		{
 			_db = db;
 		}
