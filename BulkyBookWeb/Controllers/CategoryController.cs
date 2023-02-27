@@ -6,17 +6,17 @@ namespace BulkyBookWeb.Controllers
 {
 	public class CategoryController : Controller
 	{
-		private readonly ICategoryRepository _db;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public CategoryController(ICategoryRepository db)
+		public CategoryController(IUnitOfWork unitOfWork)
 		{
-			_db = db;
+			_unitOfWork = unitOfWork;
 		}
 
 		public IActionResult Index()
 		{
 
-			IEnumerable<Category> objCategoryList = _db.GetAll(); //You can remove ToList()
+			IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll(); //You can remove ToList()
 			return View(objCategoryList);
 		}
 
@@ -41,8 +41,8 @@ namespace BulkyBookWeb.Controllers
 
 			if (ModelState.IsValid)
 			{
-				_db.Add(obj);
-				_db.Save();
+				_unitOfWork.Category.Add(obj);
+				_unitOfWork.Save();
 				TempData["success"] = "Category successfully created.";
 				return RedirectToAction("Index"); //Add a second parameter that contains the name of another controller to do to the index actionof another controller
 
@@ -58,7 +58,7 @@ namespace BulkyBookWeb.Controllers
 
 				return NotFound();
 			}
-			var categoryFromDb = _db.GetFirstOrDefault(c => c.Id == id); //Could also use _db.Catefories.Find(primary_key) or SingleOrDefault(expression)
+			var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id); //Could also use _db.Catefories.Find(primary_key) or SingleOrDefault(expression)
 
 			if (categoryFromDb == null)
 			{
@@ -81,8 +81,8 @@ namespace BulkyBookWeb.Controllers
 
 			if (ModelState.IsValid)
 			{
-				_db.Update(obj);
-				_db.Save();
+				_unitOfWork.Category.Update(obj);
+				_unitOfWork.Save();
 				TempData["success"] = "Category successfully updated.";
 				return RedirectToAction("Index"); //Add a second parameter that contains the name of another controller to do to the index actionof another controller
 
@@ -100,7 +100,7 @@ namespace BulkyBookWeb.Controllers
 
 				return NotFound();
 			}
-			var categoryFromDb = _db.GetFirstOrDefault(c => c.Id == id); //Could also use _db.Catefories.Find(primary_key) or SingleOrDefault(expression)
+			var categoryFromDb = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id); //Could also use _db.Catefories.Find(primary_key) or SingleOrDefault(expression)
 
 			if (categoryFromDb == null)
 			{
@@ -116,15 +116,15 @@ namespace BulkyBookWeb.Controllers
 		public IActionResult DeletePOST(int? id)
 		{
 
-			var obj = _db.GetFirstOrDefault(c => c.Id == id);
+			var obj = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
 			if (obj == null)
 			{
 				return NotFound();
 			}
 
 
-			_db.Remove(obj);
-			_db.Save();
+			_unitOfWork.Category.Remove(obj);
+			_unitOfWork.Save();
 			TempData["success"] = "Category deleted successfully";
 			return RedirectToAction("Index"); //Add a second parameter that contains the name of another controller to do to the index actionof another controller
 

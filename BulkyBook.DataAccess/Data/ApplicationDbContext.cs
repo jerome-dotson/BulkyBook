@@ -11,7 +11,7 @@ namespace BulkyBook.DataAccess
 		}
 
 		public DbSet<Category> Categories { get; set; } //Creating db table. Type Category is pulled from Models folder. 
-
+		public DbSet<CoverType> CoverTypes { get; set; }
 	}
 }
 
