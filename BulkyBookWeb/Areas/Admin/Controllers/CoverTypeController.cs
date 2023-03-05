@@ -6,9 +6,11 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
 
 {
+	[Area("Admin")]
 	public class CoverTypeController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+
 
 		public CoverTypeController(IUnitOfWork unitOfWork)
 		{
